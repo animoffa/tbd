@@ -33,13 +33,10 @@ export default {
                 clients: ['id', 'name', 'birthday'],
                 dishes: ['id', 'category', 'name', 'price', 'ingredients'],
                 stocks: ['id','name', 'address', 'ingredients'],
-                ingredients: ['id','name', 'description']
+                ingredients: ['id','name', 'description'],
+                departament: ['id','name'],
+                passport: ['id', 'serial', 'passport id']
             },
-            Posts:[
-                {name:'hot',id:1},
-                {name:'cold',id:2}
-            ],
-           
         }
     },
     computed:{

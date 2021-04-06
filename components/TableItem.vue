@@ -59,7 +59,7 @@
         border-bottom: 1px solid lightgray;
 
         * {
-           
+            max-width: 23rem;
             word-wrap: break-word;
         }
 

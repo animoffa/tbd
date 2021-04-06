@@ -8,7 +8,7 @@
             <form class="modal" @submit.prevent="onSubmit" >
                 <div class="modal-close" @click="closeModal"> ╳</div>
                
-                    <h3 class="modal-title">Добавить блюдо</h3>
+                    <h3 class="modal-title">{{edit ? 'Изменить блюдо' : 'Добавить блюдо'}}</h3>
                 
                     <div class="modal-content">
                         <input class="modal_input" placeholder="Название блюда" v-model.trim="name"/>

@@ -7,7 +7,7 @@
         <div v-if="isOpen" class="modal-shadow" @click.self="closeModal">
             <form class="modal" @submit.prevent="onSubmit">
                 <div class="modal-close" @click="closeModal"> ╳</div>
-                    <h3 class="modal-title">Добавить клиента</h3>
+                    <h3 class="modal-title">{{edit ? 'Изменить клиента' : 'Добавить клиента'}}</h3>
                     <div class="modal-content">
                         <input class="modal_input" placeholder="ФИО клиента" v-model.trim="fullName"/>
                          <input class="modal_input" placeholder="Дата рождения" v-model.trim="birthday"/>

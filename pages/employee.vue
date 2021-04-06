@@ -7,7 +7,7 @@
           <div v-if="isOpen" class="modal-shadow" @click.self="closeModal">
                 <form class="modal" @submit.prevent="onSubmit" >
                 <div class="modal-close" @click="closeModal"> ╳</div>
-                    <h3 class="modal-title">Добавить сотрудника</h3>
+                    <h3 class="modal-title">{{edit ? 'Изменить сотрудника' : 'Добавить сотрудника'}}</h3>
                     <div class="modal-content">
                         <input class="modal_input" placeholder="ФИО сотрудника" v-model.trim="fullName"/>
                          <input class="modal_input" placeholder="Дата рождения" v-model.trim="birthday"/>
@@ -16,7 +16,14 @@
                           <option value="Должность" selected>Должность</option>
                           <option v-for="p of posts" :key="p.name">{{p.name}}</option>
                         </select>
-                       
+                         <select class="modal_input" v-model.trim="pass">
+                          <option value="Паспорт" selected>Паспорт</option>
+                          <option v-for="p of passports" :key="p.name">{{p.seria}} {{p.num}}</option>
+                        </select>
+                          <select class="modal_input" v-model.trim="departament">
+                          <option value="Отдел" selected>Отдел</option>
+                          <option v-for="p of departaments" :key="p.name">{{p.name}}</option>
+                        </select>
                     </div>
                      <button class="modal-button" @click="closeModal" type="submit">{{edit ? 'Изменить' : 'Создать'}}</button>
                 </form>
@@ -41,6 +48,10 @@ export default {
        employee:[],
        fullName:'',
        birthday:'',
+       departaments:[],
+       departament:'Отдел',
+       passports:[],
+       pass:'Паспорт',
        phone:'',
        post:'Должность',
        posts:[],
@@ -73,8 +84,14 @@ export default {
 
       axios.get('http://localhost:4201/api/PostList').then((response)=>{
           this.posts=response.data
-         
+      })
 
+      axios.get('http://localhost:4201/api/PassportList').then((response)=>{
+          this.passports=response.data
+      })
+
+       axios.get('http://localhost:4201/api/DepartamentList').then((response)=>{
+          this.departaments=response.data
       })
     },
     closeModal() {
@@ -84,15 +101,17 @@ export default {
     },
     onSubmit() {
      let el = this.posts.find(item => item.name == this.post)
+       let p = this.passports.find(item => item.name == this.pass)
+         let d = this.departaments.find(item => item.name == this.departament)
      console.log('dd', el)
       if (this.edit) {
-       axios.post(`http://localhost:4201/api/Employee/`, {"id":this.edit, "fullName": this.fullName, "birthday": this.birthday, "phone": this.phone, "post": el}).then((response)=>{
+       axios.post(`http://localhost:4201/api/Employee/`, {"id":this.edit, "fullName": this.fullName, "birthday": this.birthday, "phone": this.phone, "post": el, "passport": p, "departament":d}).then((response)=>{
            window.location.reload(false);
            this.edit=false; 
            this.closeModal()
       })
       } else {
-        axios.post('http://localhost:4201/api/Employee', {"fullName": this.fullName, "birthday": this.birthday, "phone": this.phone, "post": el}).then((response)=>{
+        axios.post('http://localhost:4201/api/Employee', {"fullName": this.fullName, "birthday": this.birthday, "phone": this.phone, "post": el, "passport": p, "departament":d}).then((response)=>{
            window.location.reload(false); 
            this.closeModal()
       })

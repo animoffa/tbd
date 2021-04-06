@@ -8,7 +8,7 @@
             <form class="modal" @submit.prevent="onSubmit">
                 <div class="modal-close" @click="closeModal"> ╳</div>
                 <slot name="title">
-                    <h3 class="modal-title">Добавить чек</h3>
+                    <h3 class="modal-title">{{edit ? 'Изменить чек' : 'Добавить чек'}}</h3>
                 </slot>
                 <slot name="body">
                     <div class="modal-content">

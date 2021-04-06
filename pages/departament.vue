@@ -2,18 +2,14 @@
   <div class="container">
     <div class="hello">
       <Nav class="nav"/>
-      <Table table="post" :list="posts" @addItem="showModal" @deleteItem="deleteItem($event)" @editItem="editItem($event)" />
+      <Table table="departament" :list="departaments" @addItem="showModal" @deleteItem="deleteItem($event)" @editItem="editItem($event)" />
        <transition name="modal">
       <div v-if="isOpen" class="modal-shadow" @click.self="closeModal">
             <form class="modal" @submit.prevent="onSubmit" >
                 <div class="modal-close" @click="closeModal"> ╳</div>
-               
-                    <h3 class="modal-title">{{edit ? 'Изменить должность' : 'Добавить должность'}}</h3>
-               
+                    <h3 class="modal-title">{{edit ? 'Изменить отдел' : 'Добавить отдел'}}</h3>
                     <div class="modal-content">
-                        
-                        <input class="modal_input" placeholder="Должность" v-model.trim="name"/>
-                        <input class="modal_input" placeholder="Оклад" v-model.trim="salary"/>
+                        <input class="modal_input" placeholder="Отдел" v-model.trim="name"/>
                     </div>
                <button class="modal-button" @click="closeModal" type="submit">{{edit ? 'Изменить' : 'Создать'}}</button>
 
@@ -35,30 +31,26 @@ export default {
    data(){
     return{
        isOpen: false,
-       posts:[],
+       departaments:[],
        name:'',
-       salary:'',
       edit: false,
     }
   },
   mounted() {
      
-      axios.get('http://localhost:4201/api/PostList').then((response)=>{
-          this.posts=response.data
-         
-
+      axios.get('http://localhost:4201/api/DepartamentList').then((response)=>{
+          this.departaments=response.data
       })
   },
   methods: {
      deleteItem(id){
-      axios.delete(`http://localhost:4201/api/Post/${id}`).then(()=>{
+      axios.delete(`http://localhost:4201/api/Departament/${id}`).then(()=>{
            window.location.reload(false); 
       })
     },
      editItem(id){
       let el = this.posts.find(item => item.id == id);
       this.name=el.name
-      this.salary=el.salary
       this.edit=id
       this.showModal()
     },
@@ -72,13 +64,13 @@ export default {
     },
     onSubmit() {
       if (this.edit) {
-       axios.post(`http://localhost:4201/api/Post/`, {"id":this.edit, "name": this.name, "salary": this.salary}).then((response)=>{
+       axios.post(`http://localhost:4201/api/Departament/`, {"id":this.edit, "name": this.name}).then((response)=>{
            window.location.reload(false);
            this.edit=false; 
            this.closeModal()
       })
       } else {
-        axios.post('http://localhost:4201/api/Post', {"name": this.name, "salary": this.salary}).then((response)=>{
+        axios.post('http://localhost:4201/api/Departament', {"name": this.name}).then((response)=>{
            window.location.reload(false); 
            this.closeModal()
       })
